@@ -1,7 +1,9 @@
 library("shiny")
 library("shinydashboard")
 
-## to display messages to the user in the log file of the App in MoveApps one can use the function from the src/common/logger.R file: logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace() ##
+# to display messages to the user in the log file of the App in MoveApps
+# one can use the function from the src/common/logger.R file:
+# logger.fatal() -> logger.trace()
 
 shinyModuleUserInterface <- function(id, label, year) {
   ns <- NS(id) ## all IDs of UI functions need to be wrapped in ns()
@@ -19,5 +21,5 @@ shinyModule <- function(input, output, session, data, year) { ## The parameter "
   ns <- session$ns ## all IDs of UI functions need to be wrapped in ns()
   current <- reactiveVal(data)
 
-  return(reactive({ current() }))
+  return(reactive({ current() })) ## if data are not modified, the unmodified input data must be returned
 }
