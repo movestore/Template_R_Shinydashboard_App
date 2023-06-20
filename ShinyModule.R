@@ -5,20 +5,25 @@ library("shinydashboard")
 # one can use the function from the logger.R file:
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
-shinyModuleUserInterface <- function(id, label, year) {
+shinyModuleUserInterface <- function(id, label, sdk, year) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- NS(id) 
   tagList(
     dashboardPage(
-      dashboardHeader(title = paste("Add your user interface", year)),
+      dashboardHeader(title = paste(sdk, year)),
       dashboardSidebar(uiOutput(ns("Sidebar"))), 
-      dashboardBody(uiOutput(ns("TabUI")))
+      dashboardBody(
+        fluidRow(
+          box(title = sdk, h3(year))
+        ),
+        uiOutput(ns("TabUI"))
+      )
     )
   )
 }
 
 # The parameter "data" is reserved for the data object passed on from the previous app
-shinyModule <- function(input, output, session, data, year) {
+shinyModule <- function(input, output, session, data, sdk, year) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- session$ns
   current <- reactiveVal(data)
