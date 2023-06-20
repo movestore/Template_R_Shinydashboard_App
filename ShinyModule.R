@@ -5,7 +5,7 @@ library("shinydashboard")
 # one can use the function from the logger.R file:
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
-shinyModuleUserInterface <- function(id, label, sdk, year) {
+shinyModuleUserInterface <- function(id, label) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- NS(id) 
   # showcase to access a file ('auxiliary files') that is 
@@ -14,12 +14,12 @@ shinyModuleUserInterface <- function(id, label, sdk, year) {
   fileName <- paste0(getAppFilePath("yourLocalFileSettingId"), "sample.txt")
   tagList(
     dashboardPage(
-      dashboardHeader(title = paste(sdk, year)),
+      dashboardHeader(title = paste("MoveApps R-Shiny Dashboard SDK")),
       dashboardSidebar(uiOutput(ns("Sidebar"))), 
       dashboardBody(
         fluidRow(
           box(
-            title = paste(sdk, year), 
+            title = "Local App File", 
             readChar(fileName, file.info(fileName)$size)
           )
         ),
@@ -30,7 +30,7 @@ shinyModuleUserInterface <- function(id, label, sdk, year) {
 }
 
 # The parameter "data" is reserved for the data object passed on from the previous app
-shinyModule <- function(input, output, session, data, sdk, year) {
+shinyModule <- function(input, output, session, data, year) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- session$ns
   current <- reactiveVal(data)

@@ -1,7 +1,6 @@
 # tie everything together
 # the following files will NOT bundled into the final app - they are just helpers in the SDK
 source("src/common/logger.R")
-source("src/common/runtime_configuration.R")
 source("src/io/app_files.R")
 source("src/io/io_handler.R")
 source("src/io/shiny_bookmark_handler.R")
@@ -15,9 +14,7 @@ ui <- function(request) {
   fluidPage(
     tags$head(singleton(tags$script(src = 'ws-keep-alive-fix.js'))),
     tags$link(rel = "stylesheet", type = "text/css", href = "ws-keep-alive-fix.css"),
-    # This will parse a JSON file containing the concrete configuration of
-    # the app run. Per default the file `/app-configuration.json` will be parsed.
-    do.call(shinyModuleUserInterface, c("shinyModule", "shinyModule", configuration())),
+    shinyModuleUserInterface("shinyModule"),
     dataTableOutput("table"), #Is necessary for storing result
 
     # ws-heartbeat fix
@@ -32,10 +29,7 @@ server <- function(input, output, session) {
   tryCatch(
   {
     data <- readInput(sourceFile())
-    # This will parse a JSON file containing the concrete configuration of
-    # the app run. Per default the file `/app-configuration.json` will be parsed.
-    args <- configuration()
-    shinyModuleArgs <- c(shinyModule, "shinyModule", args)
+    shinyModuleArgs <- c(shinyModule, "shinyModule")
     if (!is.null(data)) {
         shinyModuleArgs[["data"]] <- data
     }
