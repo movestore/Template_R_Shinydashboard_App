@@ -8,13 +8,20 @@ library("shinydashboard")
 shinyModuleUserInterface <- function(id, label, sdk, year) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- NS(id) 
+  # showcase to access a file ('auxiliary files') that is 
+  # a) provided by the app-developer and 
+  # b) can be overridden by the workflow user.
+  fileName <- paste0(getAppFilePath("yourLocalFileSettingId"), "sample.txt")
   tagList(
     dashboardPage(
       dashboardHeader(title = paste(sdk, year)),
       dashboardSidebar(uiOutput(ns("Sidebar"))), 
       dashboardBody(
         fluidRow(
-          box(title = sdk, h3(year))
+          box(
+            title = paste(sdk, year), 
+            readChar(fileName, file.info(fileName)$size)
+          )
         ),
         uiOutput(ns("TabUI"))
       )
