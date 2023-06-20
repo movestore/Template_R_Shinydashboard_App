@@ -3,10 +3,11 @@ library("shinydashboard")
 
 # to display messages to the user in the log file of the App in MoveApps
 # one can use the function from the logger.R file:
-# logger.info(). Available levels are error(), warn(), info(), debug(), trace()
+# logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
 shinyModuleUserInterface <- function(id, label, year) {
-  ns <- NS(id) ## all IDs of UI functions need to be wrapped in ns()
+  # all IDs of UI functions need to be wrapped in ns()
+  ns <- NS(id) 
   tagList(
     dashboardPage(
       dashboardHeader(title = paste("Add your user interface", year)),
