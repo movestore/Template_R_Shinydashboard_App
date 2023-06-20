@@ -7,7 +7,7 @@ library("shinydashboard")
 
 shinyModuleUserInterface <- function(id, label) {
   # all IDs of UI functions need to be wrapped in ns()
-  ns <- NS(id) 
+  ns <- NS(id)
   # showcase to access a file ('auxiliary files') that is 
   # a) provided by the app-developer and 
   # b) can be overridden by the workflow user.
@@ -30,7 +30,7 @@ shinyModuleUserInterface <- function(id, label) {
 }
 
 # The parameter "data" is reserved for the data object passed on from the previous app
-shinyModule <- function(input, output, session, data, year) {
+shinyModule <- function(input, output, session, data) {
   # all IDs of UI functions need to be wrapped in ns()
   ns <- session$ns
   current <- reactiveVal(data)
