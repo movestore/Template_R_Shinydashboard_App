@@ -34,6 +34,6 @@ Github repository: *github.com/yourAccount/Name-of-App* *(the link to the reposi
 *Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
 
 ### Null or error handling
-*Please indicate for each parameter as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if (UI) settings are improperly set and any other important information that you find the user should be aware of.*
+*Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if UI settings/parameters are improperly set and any other important information that you find the user should be aware of.*
 
 *Example:* **Setting `input$radius`:** If no radius AND no duration are given, the input data set is returned with a warning. If no radius is given (NULL), but a duration is defined then a default radius of 1000m = 1km is set. 
