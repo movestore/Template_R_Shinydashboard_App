@@ -1,8 +1,10 @@
 library("shiny")
 library("shinydashboard")
+library("move")
+library("stringr")
 
 # to display messages to the user in the log file of the App in MoveApps
-# one can use the function from the logger.R file:
+# one can use the function from the src/common/logger.R file:
 # logger.fatal(), logger.error(), logger.warn(), logger.info(), logger.debug(), logger.trace()
 
 shinyModuleUserInterface <- function(id, label) {
@@ -12,10 +14,11 @@ shinyModuleUserInterface <- function(id, label) {
   # a) provided by the app-developer and 
   # b) can be overridden by the workflow user.
   fileName <- paste0(getAppFilePath("yourLocalFileSettingId"), "sample.txt")
+  
   tagList(
     dashboardPage(
-      dashboardHeader(title = paste("MoveApps R-Shiny Dashboard SDK")),
-      dashboardSidebar(uiOutput(ns("Sidebar"))), 
+      dashboardHeader(title = paste("MoveApps R-Shiny Dashboard SDK"),titleWidth=500),
+      dashboardSidebar(uiOutput(ns("SidebarUI"))), 
       dashboardBody(
         fluidRow(
           box(
@@ -35,6 +38,39 @@ shinyModule <- function(input, output, session, data) {
   ns <- session$ns
   current <- reactiveVal(data)
 
-  # if data are not modified, the unmodified input data must be returned
+  ##--## example code, 1 individual per tab ##--##
+  namesCorresp <- data.frame(nameInd=namesIndiv(data) , tabIndv=str_replace_all(namesIndiv(data), "[^[:alnum:]]", ""))
+  ntabs <- length(namesIndiv(data))
+  tabnames <- str_replace_all(namesIndiv(data), "[^[:alnum:]]", "")
+  plotnames <- paste0("plot_",tabnames) 
+  output$SidebarUI <- renderUI({
+    Menus <- vector("list", ntabs)
+    for(i in 1:ntabs){
+      Menus[[i]] <-   menuItem(tabnames[i], icon=icon("paw"), tabName = tabnames[i], selected = i==1) }
+    do.call(function(...) sidebarMenu(id = ns('sidebarMenuUI'),...), Menus)
+  })
+  output$TabUI <- renderUI({
+    Tabs <- vector("list", ntabs)
+    for(i in 1:ntabs){
+      Tabs[[i]] <- tabItem(tabName = tabnames[i],
+                           plotOutput(ns(plotnames[i]),height="75vh")
+      )
+    }
+    do.call(tabItems, Tabs)
+  })
+  
+  RVtab <- reactiveValues()
+  observe({
+    RVtab$indv <- namesCorresp$nameInd[namesCorresp$tabIndv==input$sidebarMenuUI]
+  })
+  for(i in 1:ntabs){
+    output[[plotnames[i]]] <- renderPlot({
+      dataSubInd <-  data[[RVtab$indv]]
+      plot(dataSubInd)
+    })
+  }
+  ##--## end of example ##--##
+  
+  # data must be returned. Either the unmodified input data, or the modified data by the app
   return(reactive({ current() }))
 }
