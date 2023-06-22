@@ -10,11 +10,16 @@
   "dependencies": {
     "R": [
       {
-        "name": "lubridate",
-        "version": "1.7.10"
+        "name": "shiny",
+      },
+      {
+        "name": "shinydashboard"
       },
       {
         "name": "move"
+      },
+      {
+        "name": "stringr"
       }
     ]
   },
