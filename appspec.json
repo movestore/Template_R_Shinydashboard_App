@@ -10,7 +10,7 @@
   "dependencies": {
     "R": [
       {
-        "name": "shiny",
+        "name": "shiny"
       },
       {
         "name": "shinydashboard"
