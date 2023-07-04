@@ -16,10 +16,13 @@
         "name": "shinydashboard"
       },
       {
-        "name": "move"
+        "name": "move2"
       },
       {
         "name": "stringr"
+      },
+      {
+        "name": "sf"
       }
     ]
   },
