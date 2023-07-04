@@ -1,7 +1,8 @@
 library("shiny")
 library("shinydashboard")
-library("move")
+library("move2")
 library("stringr")
+library("sf")
 
 # to display messages to the user in the log file of the App in MoveApps
 # one can use the function from the src/common/logger.R file:
@@ -39,9 +40,9 @@ shinyModule <- function(input, output, session, data) {
   current <- reactiveVal(data)
 
   ##--## example code, 1 individual per tab ##--##
-  namesCorresp <- data.frame(nameInd=namesIndiv(data) , tabIndv=str_replace_all(namesIndiv(data), "[^[:alnum:]]", ""))
-  ntabs <- length(namesIndiv(data))
-  tabnames <- str_replace_all(namesIndiv(data), "[^[:alnum:]]", "")
+  namesCorresp <- data.frame(nameInd=unique(mt_track_id(data)) , tabIndv=str_replace_all(unique(mt_track_id(data)), "[^[:alnum:]]", ""))
+  ntabs <- length(unique(mt_track_id(data)))
+  tabnames <- str_replace_all(unique(mt_track_id(data)), "[^[:alnum:]]", "")
   plotnames <- paste0("plot_",tabnames) 
   output$SidebarUI <- renderUI({
     Menus <- vector("list", ntabs)
@@ -65,8 +66,8 @@ shinyModule <- function(input, output, session, data) {
   })
   for(i in 1:ntabs){
     output[[plotnames[i]]] <- renderPlot({
-      dataSubInd <-  data[[RVtab$indv]]
-      plot(dataSubInd)
+      dat <- filter_track_data(data, .track_id=RVtab$indv)
+      plot(st_geometry(mt_track_lines(dat)))
     })
   }
   ##--## end of example ##--##
