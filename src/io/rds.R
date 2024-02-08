@@ -1,3 +1,5 @@
+library('move2')
+
 readRdsInput <- function(sourceFile) {
   if(!is.null(sourceFile) && sourceFile != "") {
     if (file.info(sourceFile)$size == 0) {
@@ -9,13 +11,7 @@ readRdsInput <- function(sourceFile) {
     }
     logger.debug("Reading RDS from file '%s'", sourceFile)
     rds <- readRDS(file = sourceFile)
-    if (is(rds,"MoveStack")) {
-      logger.warn("Received input data in format 'MoveStack'. Will convert it to 'move2'.")
-      data <- move2::mt_as_move2(rds)
-    } else {
-      data <- rds
-    }
-    return(data)
+    return(rds)
   } else {
     logger.debug("Skip loading: no source File")
   }
