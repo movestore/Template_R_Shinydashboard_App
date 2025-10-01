@@ -2124,7 +2124,7 @@
       "RemoteRepo": "moveapps-sdk-r-package",
       "RemoteUsername": "movestore",
       "RemoteRef": "HEAD",
-      "RemoteSha": "33fa7b98905cf0c59596f7596f72e3fdb5b1d4a5",
+      "RemoteSha": "fba9e293ea7c0a1a5f15fded319a09a9f64599f6",
       "NeedsCompilation": "no",
       "Author": "Clemens Hahn [aut, cre]",
       "Maintainer": "Clemens Hahn <clemens@couchbits.com>"

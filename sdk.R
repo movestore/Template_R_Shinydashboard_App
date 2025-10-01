@@ -17,4 +17,4 @@ source("ShinyModule.R")
 
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 3838)
-shiny::shinyApp(moveapps::simulateMoveAppsShinyUi, moveapps::simulateMoveAppsShinyServer, enableBookmarking = "server")
+shiny::shinyApp(moveapps::createMoveAppsShinyUI, moveapps::createMoveAppsShinyServer, enableBookmarking = "server")
